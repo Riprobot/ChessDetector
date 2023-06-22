@@ -1,6 +1,5 @@
 import telebot
 from image2fen import FEN_Converter
-from telebot import types
 
 bot_token = 'REMOVED'
 bot = telebot.TeleBot(bot_token)

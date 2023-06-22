@@ -27,20 +27,20 @@ def pixel_dist(pix1, pix2):
 def get_point_error_line(img, point, axis=0, eps=3):
     w, h = img.size[0], img.size[1]
     if axis == 0:
-        return pixel_dist(img.getpixel((min(w, int(point[0] + eps)), int(point[1]))),
+        return pixel_dist(img.getpixel((min(w - 1, int(point[0] + eps)), int(point[1]))),
                           img.getpixel((max(0, int(point[0] - eps)), int(point[1]))))
     else:
-        return pixel_dist(img.getpixel((int(point[0]), min(h, int(point[1] + eps)))),
+        return pixel_dist(img.getpixel((int(point[0]), min(h - 1, int(point[1] + eps)))),
                           img.getpixel((int(point[0]), max(0, int(point[1] - eps)))))
 
 
 def get_point_error_angle(img, point, eps=3):
     w, h = img.size[0], img.size[1]
-    sum1 = pixel_dist(img.getpixel((min(w, int(point[0] + eps)), max(0, int(point[1] - eps)))),
-                      img.getpixel((max(0, int(point[0] - eps)), min(h, int(point[1] + eps)))))
+    sum1 = pixel_dist(img.getpixel((min(w - 1, int(point[0] + eps)), max(0, int(point[1] - eps)))),
+                      img.getpixel((max(0, int(point[0] - eps)), min(h - 1, int(point[1] + eps)))))
     sum2 = pixel_dist(
         img.getpixel((max(0, int(point[0] - eps)), max(0, int(point[1] - eps)))),
-        img.getpixel((min(w, int(point[0] + eps)), min(h, int(point[1] + eps)))))
+        img.getpixel((min(w - 1, int(point[0] + eps)), min(h - 1, int(point[1] + eps)))))
     return sum1 + sum2
 
 

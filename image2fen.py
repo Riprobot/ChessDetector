@@ -1,6 +1,7 @@
 import cv2
 from corner_detection import detect_corners
-from image_transforms import four_point_transform, plot_grid_on_transformed_image, get_perspective_point, \
+from image_transforms import four_point_transform, plot_grid_on_transformed_image, \
+    get_perspective_point, \
     get_point_by_box
 from piece_detector import chess_pieces_detector
 from piece_detector import load_model
@@ -33,7 +34,7 @@ class FEN_Converter:
     def convert_fen(self, image_path):
         print("Started to detect")
         img = cv2.imread(image_path)
-#       img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (416, 416))
         now = time.time()
         corners = detect_corners(img=img)

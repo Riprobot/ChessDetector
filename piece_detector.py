@@ -1,14 +1,4 @@
 from ultralytics import YOLO
-
-from matplotlib.pyplot import figure
-import matplotlib.image as image
-from matplotlib import pyplot as plt
-
-import pandas as pd
-import numpy as np
-from numpy import asarray
-from PIL import Image
-
 import cv2
 
 
