@@ -5,7 +5,6 @@ from numpy import asarray
 import numpy as np
 import cv2
 
-
 # perspective transforms an image with four given corners
 def four_point_transform(img, pts):
     image = asarray(img)
@@ -39,7 +38,7 @@ def four_point_transform(img, pts):
     return img, M
 
 
-# calculates chessboard grid
+
 def order_points(pts):
     # order a list of 4 coordinates:
     # 0: top-left,
@@ -96,7 +95,6 @@ def plot_grid_on_transformed_image(image, draw=False):
         plt.axis('off')
         plt.savefig('temp/chessboard_transformed_with_grid.jpg')
     return ptsT, ptsL
-
 
 def get_point_by_box(box):
     BL = (box[0], box[1])
