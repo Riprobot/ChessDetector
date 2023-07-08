@@ -8,7 +8,10 @@ from os import listdir
 from os.path import isfile, join
 import platform
 import subprocess
-executable_path = {
+import stat
+import os
+
+executable_file = {
     "Windows": "Windows/board_finder_calc.exe",
     "Linux": "Linux/board_finder_calc",
     "Darwin": "Darwin/board_finder_calc"
@@ -56,8 +59,11 @@ def run_annealing_executable(board):
     file_end_time = time.time()
     print("file time =", file_end_time - file_start_time)
     try:
+        executable_path = f'./corners/annealing_executables/{executable_file[platform.system()]}'
         outside_start_time = time.time()
-        subprocess.run([f"./corners/annealing_executables/{executable_path[platform.system()]}"])
+        st = os.stat(executable_path)
+        os.chmod(executable_path, st.st_mode | stat.S_IEXEC)
+        subprocess.run([executable_path])
         board_coordinates = []
         with open('temp/corners.txt') as f:
             lines = f.readlines()
