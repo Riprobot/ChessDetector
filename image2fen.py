@@ -5,13 +5,13 @@ from corners.image_transforms import four_point_transform, plot_grid_on_transfor
     get_point_by_box
 from pieces.piece_detector import chess_pieces_detector
 from pieces.piece_detector import load_model
-import numpy as np
 import time
 
 
 class FEN_Converter:
-    def __init__(self, model_path):
+    def __init__(self, model_path, use_executable=True):
         self.model = load_model(model_path)
+        self.use_executable = use_executable
         self.num2chess = {
             0: 'b', 1: 'k', 2: 'n',
             3: 'p', 4: 'q', 5: 'r',
@@ -39,7 +39,7 @@ class FEN_Converter:
         # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (416, 416))
         now = time.time()
-        corners = detect_corners(img=img)
+        corners = detect_corners(img=img, use_executables=self.use_executable)
         print(f"Corners detected in {time.time() - now} s.")
         transformed_image, M = four_point_transform(img, corners)
         detections, boxes = chess_pieces_detector(img, self.model)
@@ -56,7 +56,7 @@ class FEN_Converter:
                           ['1', '1', '1', '1', '1', '1', '1', '1'],
                           ['1', '1', '1', '1', '1', '1', '1', '1']]
         sorted_by_conf = [i for i in range(len(detections))]
-        print(boxes)
+        # print(boxes)
         sorted_by_conf = sorted(sorted_by_conf, key=lambda x: boxes.conf[x].item())
         for _ in range(len(detections)):
             id = sorted_by_conf[_]
