@@ -37,11 +37,12 @@ int main() {
             img[i][j] = hex_char(s[0]) * 16 + hex_char(s[1]);
         }
     }
+    ///asdasd
     std::array<int, BOARD_SIZE> left;
     std::array<int, BOARD_SIZE> right;
     std::array<int, BOARD_SIZE> up;
     std::array<int, BOARD_SIZE> down;
-    for (int i = 0; i < BOARD_SIZE; ++i) { //asdasdasdasdasasdasdasdasdasdasddfsdsdasdasd
+    for (int i = 0; i < BOARD_SIZE; ++i) {
         file >> left[i];
     }
     for (int i = 0; i < BOARD_SIZE; ++i) {
@@ -53,40 +54,8 @@ int main() {
     for (int i = 0; i < BOARD_SIZE; ++i) {
         file >> down[i];
     }
-//    std::cout << "read_time=" << clock() << "ms" << std::endl;ss
     annealing::Board board(img, left, right, up, down);
     annealing::Board result = annealing::simulation(img, board, 9000, 100, 1000);
-//    std::cout << "ok3" << std::endl;
-//    std::cout << result.score << std::endl;
-//    std::cout << "left = [";
-//    for (int i = 0; i < BOARD_SIZE; ++i) {
-//        std::cout << result.left[i];
-//        if (i != BOARD_SIZE - 1) {
-//            std::cout << ", ";
-//        }
-//    } std::cout << "]\n";
-//    std::cout << "right = [";
-//    for (int i = 0; i < BOARD_SIZE; ++i) {
-//        std::cout << result.right[i];
-//        if (i != BOARD_SIZE - 1) {
-//            std::cout << ", ";
-//        }
-//    } std::cout << "]\n";
-//    std::cout << "up = [";
-//    for (int i = 0; i < BOARD_SIZE; ++i) {
-//        std::cout << result.up[i];
-//        if (i != BOARD_SIZE - 1) {
-//            std::cout << ", ";
-//        }
-//    } std::cout << "]\n";
-//    std::cout << "down = [";
-//    for (int i = 0; i < BOARD_SIZE; ++i) {
-//        std::cout << result.down[i];
-//        if (i != BOARD_SIZE - 1) {
-//            std::cout << ", ";
-//        }
-//    } std::cout << "]\n";
-
     for (int i = 0; i < BOARD_SIZE; ++i) {
         output_file << result.left[i] << " ";
     } output_file << "\n";
@@ -100,10 +69,7 @@ int main() {
         output_file << result.down[i] << " ";
     } output_file << "\n";
 
-
-//    std::cout << (int)img[0][0] << std::endl;
-//    std::cout << n << " " <<  m << std::endl;
-//    std::cout << "Hello, World!" << std::endl;
     std::cout << "c++ time=" << clock() << "ms" << std::endl;
+//    std::cout << result.score << std::endl;
     return 0;
 }

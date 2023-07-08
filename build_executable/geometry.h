@@ -1,6 +1,4 @@
-//
-// Created by nikita on 03.07.2023.
-//
+
 
 #ifndef BOARD_FINDER_CALC_GEOMETRY_H
 #define BOARD_FINDER_CALC_GEOMETRY_H
@@ -83,7 +81,5 @@ namespace geometry {
 //    bool inside_window(int w, int h, int x, int y);
 
 }
-
-#include "geometry.cpp"
 
 #endif //BOARD_FINDER_CALC_GEOMETRY_H

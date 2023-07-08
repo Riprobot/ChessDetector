@@ -1,6 +1,4 @@
-//
-// Created by nikita on 03.07.2023.
-//
+
 
 #include "geometry.h"
 
@@ -103,11 +101,8 @@ namespace geometry {
     }
 
     Vector cross(Line ln1, Line ln2) {
-//        std::cout << ln1.a << "*x+" << ln1.b << "*y+" << ln1.c << "=0" << std::endl;
-//        std::cout << ln2.a << "*x+" << ln2.b << "*y+" << ln2.c << "=0" << std::endl;
         float x = (ln1.b * ln2.c - ln2.b * ln1.c) / (ln1.a * ln2.b - ln2.a * ln1.b);
         float y = (ln2.c * ln1.a - ln1.c * ln2.a) / (ln2.a * ln1.b - ln1.a * ln2.b);
-//        std::cout << "(" << x << ", " << y << std::endl;
         return Vector(x, y);
     }
 
@@ -120,12 +115,5 @@ namespace geometry {
         float dy = pt1.y - pt2.y;
         return sqrt(dx * dx + dy * dy);
     }
-
-//    Segment window_segment(int w, int h, Line ln);
-//
-//    float smooth_distance(int w, int h, Line ln1, Line ln2);
-//
-//    bool inside_window(int w, int h, int x, int y);
-
 
 }
