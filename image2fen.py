@@ -1,5 +1,5 @@
 import cv2
-from corners.smart_corner_detection import detect_corners
+from corners.corner_detection import detect_corners
 from corners.image_transforms import four_point_transform, plot_grid_on_transformed_image, \
     get_perspective_point, \
     get_point_by_box

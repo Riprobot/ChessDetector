@@ -4,6 +4,10 @@ import time
 import cv2
 from corners.image_transforms import four_point_transform, plot_grid_on_transformed_image
 from corners.corrector import *
+from os import listdir
+from os.path import isfile, join
+
+import subprocess
 
 def draw_line(img, ln, color, thickness):
     height, width = img.shape[:2]
@@ -21,16 +25,62 @@ def draw_circle(img, pt, color, radius):
     y = round(pt.y)
     cv2.circle(img, (x, y), radius, color, 1)
 
+def run_annealing_executable(board):
+    h, w = board.img.shape[:2]
+    src = board.img
+    file_start_time = time.time()
+    f = open("temp/board_find_data.txt", 'w')
+    f.write(str(h) + " " + str(w) + "\n")
+    for i in range(h):
+        for j in range(w):
+            s = hex(src[i, j])[2:]
+            if (len(s) == 1):
+                s = '0' + s
+            f.write(s + " ")
+    f.write("\n")
+    for i in range(BOARD_LINES_CNT):
+        f.write(str(board.left[i]) + " ")
+    for i in range(BOARD_LINES_CNT):
+        f.write(str(board.right[i]) + " ")
+    for i in range(BOARD_LINES_CNT):
+        f.write(str(board.up[i]) + " ")
+    for i in range(BOARD_LINES_CNT):
+        f.write(str(board.down[i]) + " ")
 
-def get_corners(src):
+    f.close()
+    file_end_time = time.time()
+    print("file time =", file_end_time - file_start_time)
+    # try:
+    outside_start_time = time.time()
+    subprocess.run(["./corners/annealing_executables/board_finder_calc.exe"])
+    board_coordinates = []
+    with open('temp/corners.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            board_coordinates.append(list(map(int, line.split())))
+    board = Board(board_coordinates[0], board_coordinates[1], board_coordinates[2], board_coordinates[3], src)
+    outside_end_time = time.time()
+    print("outside time =", outside_end_time - outside_start_time)
+    return board
+    # except:
+    #     print("executable run failure, running python")
+    #     return None
+
+def get_corners(src, use_executables):
     img = src
     img = cv2.resize(img, (416, 416))
     h, w = img.shape[:2]
     src = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     start_time = time.time()
     board = get_approach(src)
-    board = simulation(board)
-
+    if use_executables:
+        new_board = run_annealing_executable(board)
+        if new_board is not None:
+            board = new_board
+        else:
+            board = simulation(board)
+    else:
+        board = simulation(board)
     score = calc_score(board, True)
     # print(score)
     # print("final_score=", score)
@@ -72,12 +122,12 @@ def get_corners(src):
     # cv2.waitKey()
 
 
-def detect_corners(img=None, img_filename=None):
+def detect_corners(img=None, img_filename=None, use_executables=True):
     if img is None:
         if img_filename is None:
-            return AttributeError("img or img_filename must be not None")
+            raise AttributeError("img or img_filename must be not None")
         img = cv2.imread(img_filename)
-    corners = get_corners(img)
+    corners = get_corners(img, use_executables)
     transformed_image, M = four_point_transform(img, corners)
     ptsT, ptsL = plot_grid_on_transformed_image(transformed_image, draw=True)
     return corners
