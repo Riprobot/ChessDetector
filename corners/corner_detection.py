@@ -6,9 +6,9 @@ from corners.image_transforms import four_point_transform, plot_grid_on_transfor
 from corners.corrector import *
 from os import listdir
 from os.path import isfile, join
-
+import platform
 import subprocess
-
+executable_name = 'board_finder_calc.exe' if platform.system() == 'Windows' else 'board_finder_calc'
 # def draw_line(img, ln, color, thickness):
 #     height, width = img.shape[:2]
 #     sg = get_window_segment(width, height, ln)
@@ -52,7 +52,7 @@ def run_annealing_executable(board):
     print("file time =", file_end_time - file_start_time)
     try:
         outside_start_time = time.time()
-        subprocess.run(["./corners/annealing_executables/board_finder_calc.exe"])
+        subprocess.run([f"./corners/annealing_executables/{executable_name}"])
         board_coordinates = []
         with open('temp/corners.txt') as f:
             lines = f.readlines()

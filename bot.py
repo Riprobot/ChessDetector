@@ -18,14 +18,12 @@ admin_id = 1893505394
 @bot.message_handler(content_types=['photo'])
 def photo(message):
     user_id = message.chat.id
-    print('message.photo =', message.photo)
     fileID = message.photo[-1].file_id
-    print('fileID =', fileID)
     file_info = bot.get_file(fileID)
-    print('file.file_path =', file_info.file_path)
     downloaded_file = bot.download_file(file_info.file_path)
     with open("temp/image.jpg", 'wb') as new_file:
         new_file.write(downloaded_file)
+    bot.send_message(user_id, "Started to detect")
     url = detector.get_lichess_editor('temp/image.jpg')
     if test:
         img = open('temp/chessboard_transformed_with_grid.jpg', 'rb')
