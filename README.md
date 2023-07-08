@@ -1,7 +1,11 @@
 # Chess Detector
 * API integrated in TelegramBot that convert chess board photos to FEN format
-* 
+* YoloV8 state-of-art model in detection
 
+This repo was created by _Aidar Asadullin_ as final project of DLS (Deep Learning School) on detection
+
+# Demo
+![](demo.gif)
 # How to use
 * clone this repo
 * include ```HashMap.h``` (see example below)
