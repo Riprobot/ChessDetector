@@ -60,9 +60,16 @@ Then lets took piece boxed center and transform these point on new image and in 
 # How to use
 * close this repo `https://github.com/Riprobot/ChessDetector.git`
 * install requirements.txt `pip install requirements.txt`
-* run `check.py`
+* run `python check.py` or `python bot.py` to run telegram bot
 * see result in `temp` folder
 * or see https://t.me/chess_detector_bot
 
 
+# Hosting
+
+Now telegram bot hosted on Amvera free servers, and it can be much slower than on your on device. To hosting used [`amvera.yml`](amvera.yml) file
+
+> My device: 6 second
+>
+> Amvera servers: 45 second 
 
