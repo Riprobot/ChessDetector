@@ -46,6 +46,8 @@ Second part of training was dataset with good annotations, but on different boar
 Third part of training was my own [final dataset](https://universe.roboflow.com/school-uqbua/chess-dataset-4r7r7).
 
 > Training code is provided in [_yolo-v8-train-on-chess.ipynb_](yolo-v8-train-on-chess.ipynb)
+
+>All datasets also provided [here](https://disk.yandex.ru/client/disk/%D0%A8%D0%B0%D1%85%D0%BC%D0%B0%D1%82%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%B0%D1%82%D0%B0%D1%81%D0%B5%D1%82%D1%8B)
 ### 3. Merge detections
 
 Now we have board corners and piece detection, now we can build FEN.
@@ -60,4 +62,7 @@ Then lets took piece boxed center and transform these point on new image and in 
 * install requirements.txt `pip install requirements.txt`
 * run `check.py`
 * see result in `temp` folder
+* or see https://t.me/chess_detector_bot
+
+
 
