@@ -8,7 +8,12 @@ from os import listdir
 from os.path import isfile, join
 import platform
 import subprocess
-executable_name = 'board_finder_calc.exe' if platform.system() == 'Windows' else 'board_finder_calc'
+executable_path = {
+    "Windows": "Windows/board_finder_calc.exe",
+    "Linux": "Linux/board_finder_calc",
+    "Darwin": "Darwin/board_finder_calc"
+}
+
 # def draw_line(img, ln, color, thickness):
 #     height, width = img.shape[:2]
 #     sg = get_window_segment(width, height, ln)
@@ -52,7 +57,7 @@ def run_annealing_executable(board):
     print("file time =", file_end_time - file_start_time)
     try:
         outside_start_time = time.time()
-        subprocess.run([f"./corners/annealing_executables/{executable_name}"])
+        subprocess.run([f"./corners/annealing_executables/{executable_path[platform.system()]}"])
         board_coordinates = []
         with open('temp/corners.txt') as f:
             lines = f.readlines()
