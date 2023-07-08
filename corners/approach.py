@@ -225,7 +225,7 @@ def get_approach(src):
         down.append(ln.cross(line_from_segment(Segment(Vector(0, height-1), Vector(width-1, height-1)))).x)
         # print(ln)
     best_board = Board(left, right, up, down, src)
-    best_score = calc_score(best_board, src)
+    # best_score = calc_score(best_board)
     # for i in range(20):
     #     board = InnerBoard(random.sample(inner_lines[1], BOARD_LINES_CNT), random.sample(inner_lines[0], BOARD_LINES_CNT))
     #     score = calc_score(best_board, src)

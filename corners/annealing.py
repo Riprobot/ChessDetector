@@ -29,7 +29,7 @@ class Board:
         self.right.sort()
         self.up.sort()
         self.down.sort()
-        score_result = calc_score(self, img, True)
+        score_result = calc_score(self, True)
         self.score = score_result[0]
         self.confidence = score_result[1]
         worst_horizontal = 0
@@ -143,9 +143,8 @@ def cross_value(img, left, right, up, down):
     return result
 
 
-def calc_score(board, img, get_confidence=False):
+def calc_score(board, get_confidence=False):
     confidence = [[0] * BOARD_LINES_CNT, [0] * BOARD_LINES_CNT]
-    h, w = img.shape[:2]
     result = 0
     for i in range(BOARD_LINES_CNT - 1):
         result -= 100 / max(0.001, board.up[i + 1] - board.up[i])
@@ -156,7 +155,7 @@ def calc_score(board, img, get_confidence=False):
     cross_result = 0
     for i in range(BOARD_LINES_CNT):
         for j in range(BOARD_LINES_CNT):
-            val = cross_value(img, board.left[i], board.right[i], board.up[j], board.down[j])
+            val = cross_value(board.img, board.left[i], board.right[i], board.up[j], board.down[j])
             confidence[0][i] += val
             confidence[1][j] += val
             cross_result += val
@@ -168,7 +167,7 @@ def calc_score(board, img, get_confidence=False):
         dir_vec = dir_vec / (BOARD_LINES_CNT - 1)
         pt2 = pt2 + dir_vec
         pt1 = pt1 - dir_vec
-        sg_val = segment_value(img, Segment(pt1, pt2))
+        sg_val = segment_value(board.img, Segment(pt1, pt2))
         confidence[0][i] += sg_val
         segment_result += sg_val
     for i in range(BOARD_LINES_CNT):
@@ -178,7 +177,7 @@ def calc_score(board, img, get_confidence=False):
         dir_vec = dir_vec / (BOARD_LINES_CNT - 1)
         pt2 = pt2 + dir_vec
         pt1 = pt1 - dir_vec
-        sg_val = segment_value(img, Segment(pt1, pt2))
+        sg_val = segment_value(board.img, Segment(pt1, pt2))
         confidence[1][i] += sg_val
         segment_result += sg_val
 
@@ -409,8 +408,7 @@ def probability(old_score, new_score, temperature):
     return math.exp((new_score - old_score) / temperature)
 
 
-def simulation(board, img):
-    h, w = img.shape[:2]
+def simulation(board):
     ITER_CNT = 6000
     START_T = 100
     for i in range(ITER_CNT):

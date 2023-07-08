@@ -29,9 +29,9 @@ def get_corners(src):
     src = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     start_time = time.time()
     board = get_approach(src)
-    board = simulation(board, src)
+    board = simulation(board)
 
-    score = calc_score(board, src, True)
+    score = calc_score(board, True)
     # print(score)
     # print("final_score=", score)
     worst_horizontal = 0
