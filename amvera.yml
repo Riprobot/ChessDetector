@@ -1,0 +1,11 @@
+meta:
+  environment: python
+  toolchain:
+    name: pip
+    version: 3.8
+build:
+  requirementsPath: requirements.txt
+run:
+  command: apt-get update && apt-get install ffmpeg libsm6 libxext6  -y && python bot.py
+  persistenceMount: ''
+  containerPort: 80
