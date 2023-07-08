@@ -1,3 +1,5 @@
 .idea
 images
 __pycache__
+build_executable/.idea
+build_executable/cmake-build-debug
