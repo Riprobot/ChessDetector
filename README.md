@@ -4,6 +4,11 @@
 
 This repo was created by _Aidar Asadullin_ as final project of DLS (Deep Learning School) on detection
 
+# Problem
+
+We love playing chess online and offline, but sometimes we need to analyze board position and get best move. If you play online it is easy to do, because we have stockfish in chess sites, but what to do if you play offline. Only way to analyze the situation it is to copy you position piece by piece, sometimes it is boring and slow.
+
+I decided to make telegram bot to solve this problem, you just need to take one photo of board and it will get you direct link to [lichess.org](https://lichess.org), where you position already configured, then you just need check if all pieces are correct and tap button to analyze position and get best move from stockfish.
 # Demo
 ![](demo.gif)
 
@@ -26,6 +31,16 @@ First, I decided to make detection model on one class, but then I have some prob
 
 After these problems I realized that detecting corners it is not so hard task to use AI, it can be done with algorithm:
 
+Instead of looking for the corners of the board, we will find 14 internal straight lines
+7 vertical straight lines and 7 horizontal straight lines
+If we find these straight lines, then we can easily find the approximate location of the corners of the board, and then adjust it so that cv2.perspectiveTransforms will be the perfect chessboard
+
+To get the initial list of straight lines, we use cv2.HoughLinesP().
+To check which lines fit together, I checked how much their intersections look like a chessboard
+Unfortunately cv2.HoughLinesP() sometimes doesn't find the right lines, and also finds a lot of useless lines
+Therefore, an algorithm of simulated annealing was implemented to find the final lines
+The annealing simulation algorithm requires a lot of iterations so the python code has been running for too long
+Therefore, this algorithm has been rewritten in c++, see it on [`build_executable`](build_executable)
 
 ### 2. Detect pieces on board
 
@@ -48,6 +63,12 @@ Third part of training was my own [final dataset](https://universe.roboflow.com/
 > Training code is provided in [_yolo-v8-train-on-chess.ipynb_](yolo-v8-train-on-chess.ipynb)
 
 >All datasets also provided [here](https://disk.yandex.ru/client/disk/%D0%A8%D0%B0%D1%85%D0%BC%D0%B0%D1%82%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%B0%D1%82%D0%B0%D1%81%D0%B5%D1%82%D1%8B)
+
+### Model results
+
+After training on final dataset YoloV8 have next results on test part:
+> Precision:  0.995, Recall: 0.995,MAP50: 0.994, MAP95: 0.925
+
 ### 3. Merge detections
 
 Now we have board corners and piece detection, now we can build FEN.
