@@ -54,43 +54,43 @@ class Board:
         return h_ln.cross(v_ln)
 
 
-segment_value_cache = dict()
+# segment_value_cache = dict()
 cross_value_cache = dict()
 
-segment_statistic = [0, 0]
+# segment_statistic = [0, 0]
 cross_statistic = [0, 0]
 
 
-def segment_value(img, sg):
-    h, w = img.shape[:2]
-    hash_val = hash_tuple(h, w, sg)
-    if hash_val in segment_value_cache:
-        # segment_statistic[0] += 1
-        return segment_value_cache[hash_val]
-    # segment_statistic[1] += 1
-    h, w = img.shape[:2]
-    pt1 = sg.pt1
-    pt2 = sg.pt2
-    direction = Vector(pt2.x - pt1.x, pt2.y - pt1.y).normalize()
-    norm = Vector(direction.y, -direction.x).normalize()
-    eps = 3
-    cnt = 64
-    sm = 0
-    cnt = 0
-    for i in range(1, cnt):
-        x1 = round(pt1.x + direction.x * i + norm.x * eps)
-        y1 = round(pt1.y + direction.y * i + norm.y * eps)
-        x2 = round(pt1.x + direction.x * i - norm.x * eps)
-        y2 = round(pt1.y + direction.y * i - norm.y * eps)
-        if 0 <= x1 < w and 0 <= y1 < h and 0 <= x2 < w and 0 <= y2 < h:
-            delta = abs(float(img[y1, x1]) - float(img[y2, x2]))
-            sm += delta
-            cnt += 1
-    result = 0
-    if cnt != 0:
-        result = sm / cnt
-    segment_value_cache[hash_val] = result
-    return result
+# def segment_value(img, sg):
+#     h, w = img.shape[:2]
+#     hash_val = hash_tuple(h, w, sg)
+#     if hash_val in segment_value_cache:
+#         # segment_statistic[0] += 1
+#         return segment_value_cache[hash_val]
+#     # segment_statistic[1] += 1
+#     h, w = img.shape[:2]
+#     pt1 = sg.pt1
+#     pt2 = sg.pt2
+#     direction = Vector(pt2.x - pt1.x, pt2.y - pt1.y).normalize()
+#     norm = Vector(direction.y, -direction.x).normalize()
+#     eps = 3
+#     cnt = 64
+#     sm = 0
+#     cnt = 0
+#     for i in range(1, cnt):
+#         x1 = round(pt1.x + direction.x * i + norm.x * eps)
+#         y1 = round(pt1.y + direction.y * i + norm.y * eps)
+#         x2 = round(pt1.x + direction.x * i - norm.x * eps)
+#         y2 = round(pt1.y + direction.y * i - norm.y * eps)
+#         if 0 <= x1 < w and 0 <= y1 < h and 0 <= x2 < w and 0 <= y2 < h:
+#             delta = abs(float(img[y1, x1]) - float(img[y2, x2]))
+#             sm += delta
+#             cnt += 1
+#     result = 0
+#     if cnt != 0:
+#         result = sm / cnt
+#     segment_value_cache[hash_val] = result
+#     return result
 
 
 def cross_value(img, left, right, up, down):
@@ -159,27 +159,27 @@ def calc_score(board, get_confidence=False):
             confidence[0][i] += val
             confidence[1][j] += val
             cross_result += val
-    segment_result = 0
-    for i in range(BOARD_LINES_CNT):
-        pt1 = board.get_cross(i, 0)
-        pt2 = board.get_cross(i, BOARD_LINES_CNT - 1)
-        dir_vec = pt2 - pt1
-        dir_vec = dir_vec / (BOARD_LINES_CNT - 1)
-        pt2 = pt2 + dir_vec
-        pt1 = pt1 - dir_vec
-        sg_val = segment_value(board.img, Segment(pt1, pt2))
-        confidence[0][i] += sg_val
-        segment_result += sg_val
-    for i in range(BOARD_LINES_CNT):
-        pt1 = board.get_cross(0, i)
-        pt2 = board.get_cross(BOARD_LINES_CNT - 1, i)
-        dir_vec = pt2 - pt1
-        dir_vec = dir_vec / (BOARD_LINES_CNT - 1)
-        pt2 = pt2 + dir_vec
-        pt1 = pt1 - dir_vec
-        sg_val = segment_value(board.img, Segment(pt1, pt2))
-        confidence[1][i] += sg_val
-        segment_result += sg_val
+    # segment_result = 0
+    # for i in range(BOARD_LINES_CNT):
+    #     pt1 = board.get_cross(i, 0)
+    #     pt2 = board.get_cross(i, BOARD_LINES_CNT - 1)
+    #     dir_vec = pt2 - pt1
+    #     dir_vec = dir_vec / (BOARD_LINES_CNT - 1)
+    #     pt2 = pt2 + dir_vec
+    #     pt1 = pt1 - dir_vec
+    #     sg_val = segment_value(board.img, Segment(pt1, pt2))
+    #     confidence[0][i] += sg_val
+    #     segment_result += sg_val
+    # for i in range(BOARD_LINES_CNT):
+    #     pt1 = board.get_cross(0, i)
+    #     pt2 = board.get_cross(BOARD_LINES_CNT - 1, i)
+    #     dir_vec = pt2 - pt1
+    #     dir_vec = dir_vec / (BOARD_LINES_CNT - 1)
+    #     pt2 = pt2 + dir_vec
+    #     pt1 = pt1 - dir_vec
+    #     sg_val = segment_value(board.img, Segment(pt1, pt2))
+    #     confidence[1][i] += sg_val
+    #     segment_result += sg_val
 
     form_result = 0
     for i in range(BOARD_LINES_CNT - 1):
@@ -192,7 +192,7 @@ def calc_score(board, get_confidence=False):
             form_result -= max(0, ratio - 0.2) * 1000
     result += cross_result
     result += 1 * form_result
-    result += 2 * segment_result
+    # result += 2 * segment_result
     # print("###", result)
     if get_confidence:
         return [result, confidence]
