@@ -1,50 +1,63 @@
 # Chess Detector
-* API integrated in TelegramBot that convert chess board photos to FEN format
-* YoloV8 state-of-art model in detection
+* API integrated in [TelegramBot](https://t.me/chess_detector_bot) that convert chess board photos to FEN format
+* [YoloV8](https://docs.ultralytics.com/) state-of-art model in detection
 
 This repo was created by _Aidar Asadullin_ as final project of DLS (Deep Learning School) on detection
 
 # Demo
 ![](demo.gif)
+
+# How it works
+
+Chess board detection splits on 3 main parts:
+> 1) Detect corners
+> 2) Detect pieces on board
+> 3) Merge two detections into FEN
+
+Let's talk about all parts, and I will describe problems and solutions that I had.
+
+### 1. Detect corners
+Detecting corners it main part of board recognizing, if corners are incorrect the whole detection will be wrong, so it must have high accuracy.
+
+First, I decided to make detection model on one class, but then I have some problems:
+* What if we don't see one or two corners, then model will not detect them.
+* What if model detect something that is not corner and detection will be wrong
+* We need a big dataset of different boards
+
+After these problems I realized that detecting corners it is not so hard task to use AI, it can be done with algorithm:
+
+
+### 2. Detect pieces on board
+
+To detect pieces on board we need high accuracy model, I took YoloV8 - now it is state-of-art model in detection task
+
+First, I need dataset of chess pieces, but in Internet I found only one normal [dataset of chess pieces](https://public.roboflow.com/object-detection/chess-full). But these dateset have been created on US CHESS board, but I wanted to detect classic wooden board. So I decided to created my own dataset and train model on it.
+
+### Own dataset
+
+ > I bought [chess board](https://market.yandex.ru/product--desiatoe-korolevstvo-shakhmaty-02845/1780727158?sku=673427455&offerid=kvGiHkxot4KMO1mAj2CKqA&hid=13887809&nid=67217) on Yandex Market, and created and annotated 663 images. Here is [dataset](https://universe.roboflow.com/school-uqbua/chess-dataset-4r7r7)
+> 
+ > Also, I created some augmentations that roboflow provided
+
+Firstly I trained on big number of raw images containing chess pieces, annotations was bad, but it is only [warm up dataset](https://universe.roboflow.com/school-uqbua/chess-dataset-warm-up/dataset/1)
+
+Second part of training was dataset with good annotations, but on different board. It was [normal dataset](https://public.roboflow.com/object-detection/chess-full) that I found first on US CHESS board.
+
+Third part of training was my own [final dataset](https://universe.roboflow.com/school-uqbua/chess-dataset-4r7r7).
+
+> Training code is provided in [_yolo-v8-train-on-chess.ipynb_](yolo-v8-train-on-chess.ipynb)
+### 3. Merge detections
+
+Now we have board corners and piece detection, now we can build FEN.
+
+Let do cv2.perspectiveTransforms on our image, that gives us board from bird-eye-view and we can split board on rectangles.
+
+Then lets took piece boxed center and transform these point on new image and in these image we can calculate position on chess board and class we know from detection.
+
+
 # How to use
-* clone this repo
-* include ```HashMap.h``` (see example below)
+* close this repo `https://github.com/Riprobot/ChessDetector.git`
+* install requirements.txt `pip install requirements.txt`
+* run `check.py`
+* see result in `temp` folder
 
-# Code example: 
-```C++
-
-#include <iostream>
-#include "HashMap.h"
-
-HashMap <string, string> hash_map;
-hash_map["Hello"] = "world!";
-hash_map["name"] = "Aydar";
-if (hash_map.count("Hello")) {
-  std::cout << "Hello " << hash_map["Hello"] << '\n';
-}
-for (auto element: hash_map) {
-   std::cout << element.first << " " << element.second << '\n';
-}
-```
-# Fine tuning
-You can change HashMap hyperparameters in file ```"HashMap.h"```:
-* max_load_factor (optimal = 0.70): the percentage at which the HashMap will increase its capacity,  <b>make it smaller to speed up answer time, but increase the HashMap capacity</b>
-* capacity_multiplier (optimal = 2.0): coefficient by which the memory size will increase, <b>make it bigger to speed up answer time, but increase the HashMap capacity </b>
-# Speed test (HashMap vs unordered_map)
-```
-small_test (10^5 queries)
-hash_map_time 0.0370000000 seconds
-unordered_map_time 0.0260000000 seconds
-
-
-
-middle_test (10^7 queries)
-hash_map_time 1.1480000000 seconds
-unordered_map_time 4.6640000000 seconds
-
-
-
-large_test (10^8 queries)
-hash_map_time 17.9720000000 seconds
-unordered_map_time 42.1540000000 seconds
-```
