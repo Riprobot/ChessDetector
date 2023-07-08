@@ -9,21 +9,21 @@ from os.path import isfile, join
 
 import subprocess
 
-def draw_line(img, ln, color, thickness):
-    height, width = img.shape[:2]
-    sg = get_window_segment(width, height, ln)
-    if (sg is None):
-        print("bad line", ln)
-    else:
-        pt1 = (round(sg.pt1.x), round(sg.pt1.y))
-        pt2 = (round(sg.pt2.x), round(sg.pt2.y))
-        cv2.line(img, pt1, pt2, color, thickness, cv2.LINE_AA)
+# def draw_line(img, ln, color, thickness):
+#     height, width = img.shape[:2]
+#     sg = get_window_segment(width, height, ln)
+#     if (sg is None):
+#         print("bad line", ln)
+#     else:
+#         pt1 = (round(sg.pt1.x), round(sg.pt1.y))
+#         pt2 = (round(sg.pt2.x), round(sg.pt2.y))
+#         cv2.line(img, pt1, pt2, color, thickness, cv2.LINE_AA)
 
 
-def draw_circle(img, pt, color, radius):
-    x = round(pt.x)
-    y = round(pt.y)
-    cv2.circle(img, (x, y), radius, color, 1)
+# def draw_circle(img, pt, color, radius):
+#     x = round(pt.x)
+#     y = round(pt.y)
+#     cv2.circle(img, (x, y), radius, color, 1)
 
 def run_annealing_executable(board):
     h, w = board.img.shape[:2]
@@ -50,21 +50,21 @@ def run_annealing_executable(board):
     f.close()
     file_end_time = time.time()
     print("file time =", file_end_time - file_start_time)
-    # try:
-    outside_start_time = time.time()
-    subprocess.run(["./corners/annealing_executables/board_finder_calc.exe"])
-    board_coordinates = []
-    with open('temp/corners.txt') as f:
-        lines = f.readlines()
-        for line in lines:
-            board_coordinates.append(list(map(int, line.split())))
-    board = Board(board_coordinates[0], board_coordinates[1], board_coordinates[2], board_coordinates[3], src)
-    outside_end_time = time.time()
-    print("outside time =", outside_end_time - outside_start_time)
-    return board
-    # except:
-    #     print("executable run failure, running python")
-    #     return None
+    try:
+        outside_start_time = time.time()
+        subprocess.run(["./corners/annealing_executables/board_finder_calc.exe"])
+        board_coordinates = []
+        with open('temp/corners.txt') as f:
+            lines = f.readlines()
+            for line in lines:
+                board_coordinates.append(list(map(int, line.split())))
+        board = Board(board_coordinates[0], board_coordinates[1], board_coordinates[2], board_coordinates[3], src)
+        outside_end_time = time.time()
+        print("outside time =", outside_end_time - outside_start_time)
+        return board
+    except:
+        print("executable run failure, running python")
+        return None
 
 def get_corners(src, use_executables):
     img = src
@@ -104,17 +104,15 @@ def get_corners(src, use_executables):
     # print("!!!", calc_corner_metric(img, np_pts, True))
     # for pt in pts:
     #     draw_circle(img, pt, (0, 255, 0), 5)
-    draw_circle(img, Vector(np_pts[0][0], np_pts[0][1]), (0, 255, 0), 3)
-    draw_circle(img, Vector(np_pts[1][0], np_pts[1][1]), (0, 255, 0), 3)
-    draw_circle(img, Vector(np_pts[2][0], np_pts[2][1]), (0, 255, 0), 3)
-    draw_circle(img, Vector(np_pts[3][0], np_pts[3][1]), (0, 255, 0), 3)
-    for i in range(BOARD_LINES_CNT):
-        # print(i, "vert")
-        draw_line(img, board.vertical(i), (255, 0, 0), 1)
-        # print(i, "hor")
-        draw_line(img, board.horizontal(i), (255, 0, 0), 1)
-    draw_line(img, board.horizontal(worst_horizontal), (0, 0, 255), 1)
-    draw_line(img, board.vertical(worst_vertical), (0, 0, 255), 1)
+    # draw_circle(img, Vector(np_pts[0][0], np_pts[0][1]), (0, 255, 0), 3)
+    # draw_circle(img, Vector(np_pts[1][0], np_pts[1][1]), (0, 255, 0), 3)
+    # draw_circle(img, Vector(np_pts[2][0], np_pts[2][1]), (0, 255, 0), 3)
+    # draw_circle(img, Vector(np_pts[3][0], np_pts[3][1]), (0, 255, 0), 3)
+    # for i in range(BOARD_LINES_CNT):
+    #     draw_line(img, board.vertical(i), (255, 0, 0), 1)
+    #     draw_line(img, board.horizontal(i), (255, 0, 0), 1)
+    # draw_line(img, board.horizontal(worst_horizontal), (0, 0, 255), 1)
+    # draw_line(img, board.vertical(worst_vertical), (0, 0, 255), 1)
     # print("final_time=", time.time() - start_time)
     # big_result = cv2.resize(img, (800, 800))
     # cv2.imshow('big_res ' + str(random.randint(1, 10000)), big_result)

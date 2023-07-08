@@ -27,10 +27,10 @@ def photo(message):
     with open("temp/image.jpg", 'wb') as new_file:
         new_file.write(downloaded_file)
     url = detector.get_lichess_editor('temp/image.jpg')
-    bot.send_message(user_id, url)
     if test:
         img = open('temp/chessboard_transformed_with_grid.jpg', 'rb')
         bot.send_photo(user_id, img, caption="Transformed with grid")
         img = open('temp/detection.jpg', 'rb')
         bot.send_photo(user_id, img, caption="Detection")
+    bot.send_message(user_id, url)
 bot.polling()
