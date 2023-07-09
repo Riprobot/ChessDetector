@@ -82,6 +82,7 @@ Then lets took piece boxed center and transform these point on new image and in 
 * close this repo `https://github.com/Riprobot/ChessDetector.git`
 * install requirements.txt `pip install requirements.txt`
 * run `python check.py` or `python bot.py` to run telegram bot
+* if you run `check.py` and want to test another pictures, you can change `path` in file to [`images/{some_file}`](images)
 * see result in `temp` folder
 * or see https://t.me/chess_detector_bot
 

@@ -16,7 +16,7 @@ test = True
 def start_message(message):
     print(message.chat.id)
     bot.send_message(message.chat.id, start_mes)
-    bot.send_photo(message.chat.id, open('example.jpg', 'rb'), instruction_mes)
+    bot.send_photo(message.chat.id, open('images/example.jpg', 'rb'), instruction_mes)
 admin_id = 1893505394
 @bot.message_handler(content_types=['photo'])
 def photo(message):
