@@ -1,6 +1,12 @@
 def check_ffmpeg():
-    import subprocess
-    subprocess.run(["apt-get", "install", "ffmpeg", "libsm6", "libxext6", "-y"])
+    from subprocess import STDOUT, check_call
+    import os
+    check_call(['apt-get', 'install', '-y', 'ffmpeg'],
+               stdout=open(os.devnull, 'wb'), stderr=STDOUT)
+    check_call(['apt-get', 'install', '-y', 'libsm6'],
+               stdout=open(os.devnull, 'wb'), stderr=STDOUT)
+    check_call(['apt-get', 'install', '-y', 'libxext6'],
+               stdout=open(os.devnull, 'wb'), stderr=STDOUT)
 
 check_ffmpeg()
 
