@@ -1,6 +1,6 @@
 def check_ffmpeg():
-    import os
-    os.system('apt-get update && apt-get install ffmpeg libsm6 libxext6  -y')
+    import subprocess
+    subprocess.run(["apt-get", "install", "ffmpeg", "libsm6", "libxext6", "-y"])
 
 check_ffmpeg()
 
