@@ -1,12 +1,3 @@
-def check_ffmpeg():
-    from subprocess import STDOUT, check_call
-    import subprocess
-    import os
-    proc = subprocess.Popen('apt-get install -y ffmpeg libsm6 libxext6', shell=True, stdin=None, stdout=open(os.devnull, "wb"),
-                            stderr=STDOUT, executable="/bin/bash")
-    proc.wait()
-check_ffmpeg()
-
 import telebot
 from image2fen import FEN_Converter
 
