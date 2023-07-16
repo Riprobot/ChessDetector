@@ -1,3 +1,12 @@
+def check_ffmpeg():
+    try:
+        import cv2
+    except:
+        import os
+        os.system('apt-get install ffmpeg libsm6 libxext6 -y')
+
+check_ffmpeg()
+
 import telebot
 from image2fen import FEN_Converter
 
@@ -40,15 +49,5 @@ def photo(message):
         bot.send_photo(user_id, img, caption="Detection")
     bot.send_message(user_id, url)
 
-
-def check_ffmpeg():
-    try:
-        import cv2
-    except:
-        import os
-        os.system('apt-get install ffmpeg libsm6 libxext6 -y')
-
-
 if __name__ == '__main__':
-    check_ffmpeg()
     bot.polling()
