@@ -1,9 +1,6 @@
 def check_ffmpeg():
-    try:
-        import cv2
-    except:
-        import os
-        os.system('apt-get install ffmpeg libsm6 libxext6 -y')
+    import os
+    os.system('apt-get install ffmpeg libsm6 libxext6 -y')
 
 check_ffmpeg()
 
