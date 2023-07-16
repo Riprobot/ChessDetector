@@ -12,12 +12,17 @@ instruction_mes = "Присылай изображение строго в та�
 detector = FEN_Converter(model_path)
 test = True
 
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     print(message.chat.id)
     bot.send_message(message.chat.id, start_mes)
     bot.send_photo(message.chat.id, open('images/example.jpg', 'rb'), instruction_mes)
+
+
 admin_id = 1893505394
+
+
 @bot.message_handler(content_types=['photo'])
 def photo(message):
     user_id = message.chat.id
@@ -34,4 +39,16 @@ def photo(message):
         img = open('temp/detection.jpg', 'rb')
         bot.send_photo(user_id, img, caption="Detection")
     bot.send_message(user_id, url)
-bot.polling()
+
+
+def check_ffmpeg():
+    try:
+        import cv2
+    except:
+        import os
+        os.system('apt-get install ffmpeg libsm6 libxext6 -y')
+
+
+if __name__ == '__main__':
+    check_ffmpeg()
+    bot.polling()
