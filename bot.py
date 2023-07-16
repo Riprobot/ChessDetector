@@ -1,13 +1,10 @@
 def check_ffmpeg():
     from subprocess import STDOUT, check_call
+    import subprocess
     import os
-    check_call(['apt-get', 'install', '-y', 'ffmpeg'],
-               stdout=open(os.devnull, 'wb'), stderr=STDOUT)
-    check_call(['apt-get', 'install', '-y', 'libsm6'],
-               stdout=open(os.devnull, 'wb'), stderr=STDOUT)
-    check_call(['apt-get', 'install', '-y', 'libxext6'],
-               stdout=open(os.devnull, 'wb'), stderr=STDOUT)
-
+    proc = subprocess.Popen('apt-get install -y ffmpeg libsm6 libxext6', shell=True, stdin=None, stdout=open(os.devnull, "wb"),
+                            stderr=STDOUT, executable="/bin/bash")
+    proc.wait()
 check_ffmpeg()
 
 import telebot
