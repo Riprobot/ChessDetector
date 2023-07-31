@@ -69,6 +69,8 @@ Third part of training was my own [final dataset](https://universe.roboflow.com/
 After training on final dataset YoloV8 have next results on test part:
 > Precision:  0.995, Recall: 0.995,MAP50: 0.994, MAP95: 0.925
 
+Final model: [here](https://disk.yandex.ru/d/KDyHBzvJwMBHRw)
+
 ### 3. Merge detections
 
 Now we have board corners and piece detection, now we can build FEN.
