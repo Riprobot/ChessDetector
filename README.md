@@ -93,7 +93,7 @@ Now telegram bot hosted on Amvera free servers, and it can be much slower than o
 
 > My device: 6 second
 >
-> Amvera servers: 10 second
+> Amvera server: 10 second
 >
-> Streamlit servers: 9 second
+> Streamlit server: 9 second
 
