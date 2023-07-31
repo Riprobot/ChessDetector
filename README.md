@@ -62,7 +62,7 @@ Third part of training was my own [final dataset](https://universe.roboflow.com/
 
 > Training code is provided in [_yolo-v8-train-on-chess.ipynb_](yolo-v8-train-on-chess.ipynb)
 
->All datasets also provided [here](https://disk.yandex.ru/client/disk/%D0%A8%D0%B0%D1%85%D0%BC%D0%B0%D1%82%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%B0%D1%82%D0%B0%D1%81%D0%B5%D1%82%D1%8B)
+>All datasets also provided [here](https://disk.yandex.ru/d/X0BUtz1MuhNUGw)
 
 ### Model results
 
