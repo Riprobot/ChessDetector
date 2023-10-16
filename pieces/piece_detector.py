@@ -1,8 +1,11 @@
 from ultralytics import YOLO
 import cv2
+import os
 import yadisk
 
 def download_model(path):
+    if not os.path.exists('model'):
+        os.makedirs('model')
     print("Started downloading model")
     # url to get token: REMOVED
     yandex_disk_token = "REMOVED"
